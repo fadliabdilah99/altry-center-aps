@@ -1,13 +1,13 @@
 <?php
 
+use App\Http\Controllers\homeController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\userController;
 use Illuminate\Support\Facades\Route;
 
 
 // bisa di akses secara publik tanpa apapun------------------------------------------------------------------
-Route::get('/', function () {
-    return view('dashboard');
-})->name('dashboard');
+Route::get('/', [homeController::class, 'index'])->name('dashboard');
 
 
 
@@ -21,6 +21,14 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+
+// -------  halaman untuk admin------------------------------------------------------------------------------------
+Route::group(['middleware' => ['role:admin']], function () {
+    Route::get('admin-home', [homeController::class, 'homeAdmin']);
+
+    // user prosess
+    Route::get('user', [userController::class, 'index']);
+});
 
 // -------  halaman untuk admin dan gudang------------------------------------------------------------------------
 Route::group(['middleware' => ['role:admin,gudang']], function () {});

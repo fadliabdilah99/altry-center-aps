@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\dapdarController;
 use App\Http\Controllers\homeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\userController;
@@ -25,7 +26,6 @@ Route::middleware('auth')->group(function () {
 // -------  halaman untuk admin------------------------------------------------------------------------------------
 Route::group(['middleware' => ['role:admin']], function () {
     Route::get('admin-home', [homeController::class, 'homeAdmin']);
-
     // user prosess
     Route::get('user', [userController::class, 'index']);
 });
@@ -41,6 +41,11 @@ Route::group(['middleware' => ['role:admin,karyawan']], function () {});
 
 // -------  halaman untuk admin dan sales------------------------------------------------------------------------
 Route::group(['middleware' => ['role:admin,sales']], function () {});
+
+// -------  halaman untuk admin dan sales------------------------------------------------------------------------
+Route::group(['middleware' => ['role:admin,sales,karyawan,akuntan,gudang']], function () {
+    Route::get('DAP-DAR', [dapdarController::class, 'index']);
+});
 
 
 

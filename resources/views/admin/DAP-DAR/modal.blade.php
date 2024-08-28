@@ -1,4 +1,4 @@
-@foreach ($kategoris as $item)
+@foreach ($daps as $item)
     {{-- edit kategori --}}
     <div class="modal fade" id="edit{{$item->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -36,39 +36,13 @@
             </div>
         </div>
     </div>
-    {{-- Terkaitt --}}
-    <div class="modal fade" id="terkait{{ $item->id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title fs-5" id="exampleModalLabel">Produk</h3>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row d-flex justify-content-center">
-                        @if ($item->produk->isEmpty())
-                            <p>No products</p>
-                        @endif
-                        @foreach ($item->produk as $prod)
-                            <div class="card border border-light col-3 mx-1" style="width: 18rem;">
-                                <img src="images/produk/{{ $prod->image }}" class="card-img-top" alt="...">
-                                <div class="card-body">
-                                    <h6 class="card-text">{{ $prod->nama }}</h6>
-                                    <p class="card-text">{{ $prod->harga }}</p>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 @endforeach
 
 
+
+
 {{-- add katagri --}}
-<div class="modal fade" id="addkategori" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="add_Dap" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -117,3 +91,4 @@
         </div>
     </div>
 </div>
+

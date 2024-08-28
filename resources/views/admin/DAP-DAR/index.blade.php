@@ -1,6 +1,6 @@
 @extends('admin.template.main')
 
-@section('title', 'Kategori')
+@section('title', 'DAP/DAR')
 
 @push('style')
     {{-- SweetAlert2 --}}
@@ -17,12 +17,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Kategori</h1>
+                    <h1>DAP/DAR</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{ url('/home') }}">home</a></li>
-                        <li class="breadcrumb-item active">Kategori</li>
+                        <li class="breadcrumb-item active">DAP/DAR</li>
                     </ol>
                 </div>
             </div>
@@ -47,45 +47,33 @@
         </div>
 
         <div class="card-body">
-            <button class="btn btn-success mb-2" type="button" data-toggle="modal" data-target="#addkategori">Add
-                Kategori</button>
+            <button class="btn btn-success mb-2" type="button" data-toggle="modal"
+                data-target="#{{ $no }}">{{ $no }}</button>
 
             <table id="example1" class="table table-bordered table-striped text-center">
                 <thead>
                     <tr>
                         <th>Id</th>
-                        <th>Kategori</th>
-                        <th>Deskripsi</th>
-                        <th>Jumlah Produk Terkait</th>
-                        <th>Terkait</th>
+                        <th>User</th>
+                        <th>file</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($kategoris as $kategori)
+                    @foreach ($daps as $dap)
                         <tr>
-                            <td>{{ $kategori->id }}</td>
-                            <td>{{ $kategori->nama }}</td>
-                            <td>{{ $kategori->deskripsi }}</td>
-                            <td>
-                                <?php $jumlah = 0; ?>
-                                @if ($kategori->produk->isNotEmpty())
-                                    @foreach ($kategori->produk as $produk)
-                                        <?php $jumlah++; ?>
-                                    @endforeach
-                                    {{ $jumlah }}<br>
-                                @else
-                                    No products
-                                @endif
-                            </td>
+                            <td>{{ $dap->id }}</td>
+                            <td>{{ $dap->user->name }}</td>
                             <td>
                                 <button type="button" class="btn btn-secondary" data-toggle="modal"
-                                    data-target="#terkait{{ $kategori->id }}"><i class="bi bi-eye"></i></button></td>
+                                    data-target="#terkait{{ $dap->id }}"><i class="bi bi-eye"></i></button>
+                            </td>
                             <td>
+                                @if (Auth::user()->role != 'admin')
                                 <button type="button" class="btn btn-primary" data-toggle="modal"
-                                    data-target="#edit{{ $kategori->id }}">Edit</button>
-                                <form action="{{ url("deletekategori/$kategori->id") }}" method="POST"
-                                    style="display: inline">
+                                    data-target="#edit{{ $dap->id }}">Edit</button>
+                                @endif
+                                <form action="{{ url("deletedap/$dap->id") }}" method="POST" style="display: inline">
                                     @csrf
                                     @method('DELETE')
                                     <button class="btn bg-danger delete-data" type="button">
@@ -102,7 +90,7 @@
     </div>
     <!-- /.card -->
 
-    @include('admin.kategori.modal')
+    @include('admin.DAP-DAR.modal')
 @endsection
 {{-- content --}}
 

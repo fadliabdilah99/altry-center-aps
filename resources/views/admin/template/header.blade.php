@@ -215,6 +215,12 @@
                                 <p>History</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="history-admin" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Payment</p>
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <li class="nav-item">
@@ -222,6 +228,14 @@
                         <i class="bi bi-person-circle"></i>
                         <p>
                             User
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="DAP-DAR" class="nav-link">
+                        <i class="bi bi-filetype-pdf"></i>
+                        <p>
+                            DAP/DAR
                         </p>
                     </a>
                 </li>

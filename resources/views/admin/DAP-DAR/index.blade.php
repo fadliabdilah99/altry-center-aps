@@ -22,7 +22,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{ url('/home') }}">home</a></li>
-                        <li class="breadcrumb-item active">DAP/DAR</li>
+                        <li class="breadcrumb-item active">DAP-DAR</li>
                     </ol>
                 </div>
             </div>

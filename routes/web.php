@@ -28,6 +28,8 @@ Route::group(['middleware' => ['role:admin']], function () {
     Route::get('admin-home', [homeController::class, 'homeAdmin']);
     // user prosess
     Route::get('user', [userController::class, 'index']);
+    // dapdar prosess
+    Route::get('DAP-DAR', [dapdarController::class, 'index']);
 });
 
 // -------  halaman untuk admin dan gudang------------------------------------------------------------------------
@@ -44,7 +46,7 @@ Route::group(['middleware' => ['role:admin,sales']], function () {});
 
 // -------  halaman untuk admin dan sales------------------------------------------------------------------------
 Route::group(['middleware' => ['role:admin,sales,karyawan,akuntan,gudang']], function () {
-    Route::get('DAP-DAR', [dapdarController::class, 'index']);
+    Route::post('inputdapdar', [dapdarController::class, 'create']);
 });
 
 

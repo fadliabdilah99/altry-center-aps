@@ -26,21 +26,6 @@
                                         id="inputEmail3" placeholder="Email" name="email">
                                 </div>
                             </div>
-                            <div class="form-group row">
-                                <label for="inputPassword3" class="col-sm-2 col-form-label">Role</label>
-                                <div class="col-sm-10">
-                                    <select class="form-control select2bs4 select2-hidden-accessible" name="role"
-                                        id="">
-                                        <option value="{{ $item->role }}">{{ $item->role }}</option>
-                                        <option value="admin">Admin</option>
-                                        <option value="akuntan">akuntan</option>
-                                        <option value="manager">manager</option>
-                                        <option value="cs">cs</option>
-                                        <option value="karyawan">karyawan</option>
-                                        <option value="sales">sales</option>
-                                    </select>
-                                </div>
-                            </div>
                         </div>
                         <!-- /.card-body -->
                         <div class="card-footer">

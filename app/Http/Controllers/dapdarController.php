@@ -17,13 +17,14 @@ class dapdarController extends Controller
         $data = [
             'daps' => dap::where('jenis', 'DAP')->where('tanggal', $today)->with('user')->get(),
             'dars' => dap::where('jenis', 'DAR')->where('tanggal', $today)->with('user')->get(),
-            'all' => dap::all(),
+            'all' => dap::where('tanggal', $today)->with('user')->get(),
             'no' => 'kamu sudah mengrim keduanya',
             'alldaptepat' => dap::where('tanggal', $today)->where('status', 'tepat')->where('jenis', 'DAP')->get(),
             'alldartepat' => dap::where('tanggal', $today)->where('status', 'tepat')->where('jenis', 'DAR')->get(),
             'alldapterlambat' => dap::where('tanggal', $today)->where('status', 'terlambat')->where('jenis', 'DAP')->get(),
             'alldarterlambat' => dap::where('tanggal', $today)->where('status', 'terlambat')->where('jenis', 'DAR')->get(),
         ];
+
 
         $dap = dap::where('tanggal', $today)->where('jenis', 'DAP')->where('user_id', $userId)->first();
         $dar = dap::where('tanggal', $today)->where('jenis', 'DAR')->where('user_id', $userId)->first();
@@ -49,6 +50,26 @@ class dapdarController extends Controller
             'file' => 'required',
             'jenis' => 'required',
         ]);
+        // dd(date('h:i:s'));
+        if ($request->jenis == 'DAP') {
+            if (date('h:i:s') >= strtotime('09:00:00')) {
+                dd('tepat');
+                $status = 'tepat';
+            } else {
+                dd('terlambat');
+                $status = 'terlambat';
+            }
+        } else {
+            dd('masuk');
+            if (date('h:i:s') <= strtotime('17:00:00')) {
+                return redirect()->back()->with('error', 'DAR hanya bisa dikirim pada pukul 17:00');
+            } elseif (date('h:i:s') >= strtotime('17:00:00')) {
+                $status = 'tepat';
+            } elseif (date('h:i:s') <= strtotime('21:00:00')) {
+                $status = 'terlambat';
+            }
+        }
+dd($status);
 
         $file = $request->file('file');
         $ext = $file->getClientOriginalExtension();
@@ -58,10 +79,11 @@ class dapdarController extends Controller
         dap::create([
             'user_id' => $request->user_id,
             'tanggal' => $request->tanggal,
+            'status' => $status,
             'file' => $filename,
             'jenis' => $request->jenis,
         ]);
 
-        return redirect('DAP-DAR')->with('success', 'Berhasil mengirimkan data');
+        return redirect()->back()->with('success', 'Berhasil mengirimkan data');
     }
 }

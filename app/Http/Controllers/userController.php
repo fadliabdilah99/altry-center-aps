@@ -15,29 +15,9 @@ class userController extends Controller
         return view('admin.user.index')->with($data);
     }
 
-    public function create(Request $request)
-    {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|unique:users',
-            'password' => 'required',
-            'role' => 'required'
-        ]);
-
-        User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => $request->role
-        ]);
-        return redirect('user')->with('success', 'Data Berhasilsil Ditambahkan');
-    }
-
-    public function edit(Request $request, $id)
+    public function update(Request $request, $id)
     {
         user::where('id', $id)->update([
-            'name' => $request->name,
-            'email' => $request->email,
             'role' => $request->role
         ]);
 

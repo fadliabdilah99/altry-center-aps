@@ -101,7 +101,7 @@
                             <td>{{ $dap->user->name }}</td>
                             <td>
                                 <button type="button" class="btn btn-secondary" data-toggle="modal"
-                                    data-target="#terkait{{ $dap->id }}"><i class="bi bi-eye"></i></button>
+                                    data-target="#pdf{{ $dap->id }}"><i class="bi bi-eye"></i></button>
                             </td>
                             <td>{{ $dap->created_at->format('H:i:s') }}</td>
                             <td>
@@ -158,9 +158,9 @@
                             <td>{{ $dap->user->name }}</td>
                             <td>
                                 <button type="button" class="btn btn-secondary" data-toggle="modal"
-                                    data-target="#terkait{{ $dap->id }}"><i class="bi bi-eye"></i></button>
+                                data-target="#pdf{{ $dap->id }}"><i class="bi bi-eye"></i></button>
                             </td>
-                            <td>{{ $dap->created_at }}</td>
+                            <td>{{ $dap->created_at->format('H:i:s') }}</td>
                             <td>
                                 @if (Auth::user()->role != 'admin')
                                     <button type="button" class="btn btn-primary" data-toggle="modal"

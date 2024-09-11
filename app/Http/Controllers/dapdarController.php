@@ -53,14 +53,11 @@ class dapdarController extends Controller
         // dd(date('h:i:s'));
         if ($request->jenis == 'DAP') {
             if (date('h:i:s') >= strtotime('09:00:00')) {
-                dd('tepat');
                 $status = 'tepat';
             } else {
-                dd('terlambat');
                 $status = 'terlambat';
             }
         } else {
-            dd('masuk');
             if (date('h:i:s') <= strtotime('17:00:00')) {
                 return redirect()->back()->with('error', 'DAR hanya bisa dikirim pada pukul 17:00');
             } elseif (date('h:i:s') >= strtotime('17:00:00')) {
@@ -69,7 +66,6 @@ class dapdarController extends Controller
                 $status = 'terlambat';
             }
         }
-dd($status);
 
         $file = $request->file('file');
         $ext = $file->getClientOriginalExtension();
@@ -85,5 +81,41 @@ dd($status);
         ]);
 
         return redirect()->back()->with('success', 'Berhasil mengirimkan data');
+    }
+
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'file' => 'required',
+        ]);
+
+        $file = $request->file('file');
+        $ext = $file->getClientOriginalExtension();
+        $filename = time() . '.' . $ext;
+        $file->move('assets/dap-dar/', $filename);
+
+        $dap = dap::find($id);
+
+        $delete = $dap->file;
+        $path = public_path() . '/assets/dap-dar/' . $delete;
+        if (file_exists($path)) {
+            @unlink($path);
+        }
+        $dap->update([
+            'file' => $filename,
+        ]);
+        return redirect()->back()->with('success', 'Berhasil mengedit data');
+    }
+    public function delete($id)
+    {
+        $dap = dap::find($id);
+        $delete = $dap->file;
+        $path = public_path() . '/assets/dap-dar/' . $delete;
+        if (file_exists($path)) {
+            @unlink($path);
+        }
+        $dap->delete();
+        return redirect()->back()->with('success', 'Berhasil menghapus data');
     }
 }

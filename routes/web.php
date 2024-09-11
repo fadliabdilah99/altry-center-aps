@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\absenController;
 use App\Http\Controllers\dapdarController;
 use App\Http\Controllers\homeController;
 use App\Http\Controllers\karyawanController;
@@ -51,7 +52,14 @@ Route::group(['middleware' => ['role:sales']], function () {});
 
 // -------  halaman untuk admin dan sales------------------------------------------------------------------------
 Route::group(['middleware' => ['role:admin,sales,karyawan,akuntan,gudang']], function () {
+    // dapdar
     Route::post('inputdapdar', [dapdarController::class, 'create']);
+    Route::post('updatedapdar/{id}', [dapdarController::class, 'update']);
+    Route::delete('deletedap/{id}', [dapdarController::class, 'delete']);
+
+    // absen
+    Route::post('absensi', [absenController::class, 'create']);
+    Route::delete('absensi/{id}', [absenController::class, 'destroy']);
 });
 
 

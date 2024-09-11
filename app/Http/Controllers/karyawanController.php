@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\absen;
 use App\Models\dap;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -11,8 +12,14 @@ class karyawanController extends Controller
 {
     public function index()
     {
+
         $today = Carbon::now()->format('Y-m-d');
         $userId = Auth::user()->id;
+        $data = [
+            'daps' => dap::where('jenis', 'DAP')->where('tanggal', $today)->where('user_id', $userId)->with('user')->with('user')->get(),
+            'absens' => absen::where('user_id', $userId)->where('tanggal', $today)  ->with('user')->get(),
+        ];
+        
 
         $dap = dap::where('tanggal', $today)->where('jenis', 'DAP')->where('user_id', $userId)->first();
         $dar = dap::where('tanggal', $today)->where('jenis', 'DAR')->where('user_id', $userId)->first();

@@ -61,23 +61,25 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($users as $user)
+                    @foreach ($karyawans as $karyawan)
                         <tr>
-                            <td>{{ $user->id }}</td>
-                            <td>{{ $user->name }}</td>
-                            <td>{{ $user->email }}</td>
-                            <td>{{ $user->role }}</td>
+                            <td>{{ $karyawan->id }}</td>
+                            <td>{{ $karyawan->name }}</td>
+                            <td>{{ $karyawan->email }}</td>
+                            <td>{{ $karyawan->role }}</td>
                             <td>
                                 <div class="image">
-                                    <img src=" {{ $user->foto == null ? 'dist/img/user2-160x160.jpg' : $user->foto }}"
+                                    <img src=" {{ $karyawan->foto == null ? 'dist/img/user2-160x160.jpg' : $karyawan->foto }}"
                                         class="img-circle elevation-2" style="width: 70px" alt="User Image">
                                 </div>
 
                             </td>
                             <td>
                                 <button type="button" class="btn btn-primary" data-toggle="modal"
-                                    data-target="#edit{{ $user->id }}">Edit</button>
-                                <form action="{{ url("deleteuser/$user->id") }}" method="POST" style="display: inline">
+                                    data-target="#edit{{ $karyawan->id }}">Edit</button>
+                                <button type="button" class="btn btn-primary" data-toggle="modal"
+                                    data-target="#absen{{ $karyawan->id }}">aktifitas</button>
+                                <form action="{{ url("deleteuser/$karyawan->id") }}" method="POST" style="display: inline">
                                     @csrf
                                     @method('DELETE')
                                     <button class="btn bg-danger delete-data" type="button">

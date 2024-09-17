@@ -28,6 +28,21 @@
 @endpush
 
 @section('content')
+
+    @php
+
+        $karyawans = $karyawans->map(function ($karyawan) {
+            $karyawan->absen = $karyawan->absen->map(function ($absen) {
+                $absen->created_at = $absen->created_at->timezone('Asia/Jakarta')->format('Y-m-d H:i:s');
+                return $absen;
+            });
+            return $karyawan;
+        });
+
+    @endphp
+
+
+
     <!-- Content Wrapper. Contains page content -->
     <div class="content">
         <!-- Content Header (Page header) -->
@@ -376,7 +391,7 @@
                                         <i class="fas fa-times"></i>
                                     </button>
                                 </div>
-                                <h3>{{ $keterangan }}  {{ date('d-m-Y') }}</h3>
+                                <h3>{{ $keterangan }} {{ date('d-m-Y') }}</h3>
                             </div>
 
                             <div class="card-body">
@@ -396,8 +411,8 @@
                                                 <td>{{ $karyawan->id }}</td>
                                                 <td>{{ $karyawan->name }}</td>
                                                 <td>
-                                                    <button type="button" class="btn btn-primary" data-toggle="modal"
-                                                        data-target="#aktifitas{{ $karyawan->id }}">timeline</button>
+                                                    <button type="button" class="btn btn-primary"
+                                                        onclick="showData({{ $karyawan->id }})">timeline</button>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -455,7 +470,7 @@
 
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">Browser Usage</h3>
+                                <h3 class="card-title">Aktifitas Karyawan</h3>
 
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -467,160 +482,10 @@
                                 </div>
                             </div>
                             <!-- /.card-header -->
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-8">
-                                        <div class="chart-responsive">
-                                            <canvas id="pieChart" height="150"></canvas>
-                                        </div>
-                                        <!-- ./chart-responsive -->
-                                    </div>
-                                    <!-- /.col -->
-                                    <div class="col-md-4">
-                                        <ul class="chart-legend clearfix">
-                                            <li>
-                                                <i class="far fa-circle text-danger"></i> Chrome
-                                            </li>
-                                            <li><i class="far fa-circle text-success"></i> IE</li>
-                                            <li>
-                                                <i class="far fa-circle text-warning"></i> FireFox
-                                            </li>
-                                            <li>
-                                                <i class="far fa-circle text-info"></i> Safari
-                                            </li>
-                                            <li>
-                                                <i class="far fa-circle text-primary"></i> Opera
-                                            </li>
-                                            <li>
-                                                <i class="far fa-circle text-secondary"></i>
-                                                Navigator
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <!-- /.col -->
-                                </div>
-                                <!-- /.row -->
+                            <div class="card-body" id="card-content">
+                                Tidak ada data
                             </div>
-                            <!-- /.card-body -->
-                            <div class="card-footer p-0">
-                                <ul class="nav nav-pills flex-column">
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                            United States of America
-                                            <span class="float-right text-danger">
-                                                <i class="fas fa-arrow-down text-sm"></i>
-                                                12%</span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                            India
-                                            <span class="float-right text-success">
-                                                <i class="fas fa-arrow-up text-sm"></i> 4%
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                            China
-                                            <span class="float-right text-warning">
-                                                <i class="fas fa-arrow-left text-sm"></i> 0%
-                                            </span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <!-- /.footer -->
                         </div>
-                        <!-- /.card -->
-
-                        <!-- PRODUCT LIST -->
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 class="card-title">Recently Added Products</h3>
-
-                                <div class="card-tools">
-                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                        <i class="fas fa-times"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <!-- /.card-header -->
-                            <div class="card-body p-0">
-                                <ul class="products-list product-list-in-card pl-2 pr-2">
-                                    <li class="item">
-                                        <div class="product-img">
-                                            <img src="dist/img/default-150x150.png" alt="Product Image"
-                                                class="img-size-50" />
-                                        </div>
-                                        <div class="product-info">
-                                            <a href="javascript:void(0)" class="product-title">Samsung TV
-                                                <span class="badge badge-warning float-right">$1800</span></a>
-                                            <span class="product-description">
-                                                Samsung 32" 1080p 60Hz LED Smart HDTV.
-                                            </span>
-                                        </div>
-                                    </li>
-                                    <!-- /.item -->
-                                    <li class="item">
-                                        <div class="product-img">
-                                            <img src="dist/img/default-150x150.png" alt="Product Image"
-                                                class="img-size-50" />
-                                        </div>
-                                        <div class="product-info">
-                                            <a href="javascript:void(0)" class="product-title">Bicycle
-                                                <span class="badge badge-info float-right">$700</span></a>
-                                            <span class="product-description">
-                                                26" Mongoose Dolomite Men's 7-speed, Navy Blue.
-                                            </span>
-                                        </div>
-                                    </li>
-                                    <!-- /.item -->
-                                    <li class="item">
-                                        <div class="product-img">
-                                            <img src="dist/img/default-150x150.png" alt="Product Image"
-                                                class="img-size-50" />
-                                        </div>
-                                        <div class="product-info">
-                                            <a href="javascript:void(0)" class="product-title">
-                                                Xbox One
-                                                <span class="badge badge-danger float-right">
-                                                    $350
-                                                </span>
-                                            </a>
-                                            <span class="product-description">
-                                                Xbox One Console Bundle with Halo Master Chief
-                                                Collection.
-                                            </span>
-                                        </div>
-                                    </li>
-                                    <!-- /.item -->
-                                    <li class="item">
-                                        <div class="product-img">
-                                            <img src="dist/img/default-150x150.png" alt="Product Image"
-                                                class="img-size-50" />
-                                        </div>
-                                        <div class="product-info">
-                                            <a href="javascript:void(0)" class="product-title">PlayStation 4
-                                                <span class="badge badge-success float-right">$399</span></a>
-                                            <span class="product-description">
-                                                PlayStation 4 500GB Console (PS4)
-                                            </span>
-                                        </div>
-                                    </li>
-                                    <!-- /.item -->
-                                </ul>
-                            </div>
-                            <!-- /.card-body -->
-                            <div class="card-footer text-center">
-                                <a href="javascript:void(0)" class="uppercase">View All Products</a>
-                            </div>
-                            <!-- /.card-footer -->
-                        </div>
-                        <!-- /.card -->
                     </div>
                     <!-- /.col -->
                 </div>
@@ -681,72 +546,109 @@
 
 
     @push('script')
-        @push('script')
-            {{-- area chart --}}
-            <script src="plugins/chart.js/Chart.min.js"></script>
-            <script>
-                //--------------
-                //- AREA CHART -
-                //--------------
+        {{-- area chart --}}
+        <script src="plugins/chart.js/Chart.min.js"></script>
+        <script>
+            //--------------
+            //- AREA CHART -
+            //--------------
 
-                // Get context with jQuery - using jQuery's .get() method.
-                var areaChartCanvas = $('#areaChart').get(0).getContext('2d')
+            // Get context with jQuery - using jQuery's .get() method.
+            var areaChartCanvas = $('#areaChart').get(0).getContext('2d')
 
-                var areaChartData = {
-                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-                    datasets: [{
-                            label: 'Digital Goods',
-                            backgroundColor: 'rgba(60,141,188,0.9)',
-                            borderColor: 'rgba(60,141,188,0.8)',
-                            pointRadius: false,
-                            pointColor: '#3b8bba',
-                            pointStrokeColor: 'rgba(60,141,188,1)',
-                            pointHighlightFill: '#fff',
-                            pointHighlightStroke: 'rgba(60,141,188,1)',
-                            data: [28, 48, 40, 19, 86, 27, 90]
-                        },
-                        {
-                            label: 'Electronics',
-                            backgroundColor: 'rgba(210, 214, 222, 1)',
-                            borderColor: 'rgba(210, 214, 222, 1)',
-                            pointRadius: false,
-                            pointColor: 'rgba(210, 214, 222, 1)',
-                            pointStrokeColor: '#c1c7d1',
-                            pointHighlightFill: '#fff',
-                            pointHighlightStroke: 'rgba(220,220,220,1)',
-                            data: [65, 59, 80, 81, 56, 55, 40]
-                        },
-                    ]
-                }
-
-                var areaChartOptions = {
-                    maintainAspectRatio: false,
-                    responsive: true,
-                    legend: {
-                        display: false
+            var areaChartData = {
+                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                datasets: [{
+                        label: 'Digital Goods',
+                        backgroundColor: 'rgba(60,141,188,0.9)',
+                        borderColor: 'rgba(60,141,188,0.8)',
+                        pointRadius: false,
+                        pointColor: '#3b8bba',
+                        pointStrokeColor: 'rgba(60,141,188,1)',
+                        pointHighlightFill: '#fff',
+                        pointHighlightStroke: 'rgba(60,141,188,1)',
+                        data: [28, 48, 40, 19, 86, 27, 90]
                     },
-                    scales: {
-                        xAxes: [{
-                            gridLines: {
-                                display: false,
-                            }
-                        }],
-                        yAxes: [{
-                            gridLines: {
-                                display: false,
-                            }
-                        }]
-                    }
-                }
+                    {
+                        label: 'Electronics',
+                        backgroundColor: 'rgba(210, 214, 222, 1)',
+                        borderColor: 'rgba(210, 214, 222, 1)',
+                        pointRadius: false,
+                        pointColor: 'rgba(210, 214, 222, 1)',
+                        pointStrokeColor: '#c1c7d1',
+                        pointHighlightFill: '#fff',
+                        pointHighlightStroke: 'rgba(220,220,220,1)',
+                        data: [65, 59, 80, 81, 56, 55, 40]
+                    },
+                ]
+            }
 
-                // This will get the first returned node in the jQuery collection.
-                new Chart(areaChartCanvas, {
-                    type: 'line',
-                    data: areaChartData,
-                    options: areaChartOptions
-                })
-            </script>
-        @endpush
+            var areaChartOptions = {
+                maintainAspectRatio: false,
+                responsive: true,
+                legend: {
+                    display: false
+                },
+                scales: {
+                    xAxes: [{
+                        gridLines: {
+                            display: false,
+                        }
+                    }],
+                    yAxes: [{
+                        gridLines: {
+                            display: false,
+                        }
+                    }]
+                }
+            }
+
+            // This will get the first returned node in the jQuery collection.
+            new Chart(areaChartCanvas, {
+                type: 'line',
+                data: areaChartData,
+                options: areaChartOptions
+            })
+        </script>
+
+        <script>
+            function showData(karyawanId) {
+                let data = {!! json_encode($karyawans->toArray()) !!};
+                let karyawan = data.find(item => item.id === karyawanId);
+
+                if (karyawan) {
+                    let absens = karyawan.absen;
+                    let content =
+                        `<div class="timeline"><div class="time-label"><span class="bg-red">{{ date('d-M-Y') }}</span></div>`;
+
+                    absens.forEach(absen => {
+                        let createdAt = new Date(absen.created_at);
+                        let formattedDate = new Intl.DateTimeFormat('id-ID', {
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            timeZone: 'Asia/Jakarta'
+                        }).format(createdAt);
+
+                        content += `
+                <div>
+                    <i class="fas fa-envelope bg-blue"></i>
+                    <div class="timeline-item">
+                        <span class="time"><i class="fas fa-clock"></i> ${formattedDate}</span>
+                        <h3 class="timeline-header">${absen.kategori}</h3>
+                        <div class="timeline-body">
+                            <img src="assets/absen/${absen.foto}" class="img-fluid" width="300" alt="">
+                            <p><b>${absen.keterangan}</b></p>
+                        </div>
+                    </div>
+                </div>
+            `;
+                    });
+
+                    content += '</div>';
+                    document.getElementById('card-content').innerHTML = content;
+                }
+            }
+        </script>
     @endpush
 
 @endsection

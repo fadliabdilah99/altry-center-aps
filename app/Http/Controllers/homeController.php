@@ -24,6 +24,10 @@ class homeController extends Controller
             $query->whereDate('tanggal', Carbon::today())
                 ->whereTime('created_at', '>', '08:00:00');
         })->get();
+        $data['penggunaTepat'] = User::whereHas('absen', function ($query) {
+            $query->whereDate('tanggal', Carbon::today())
+                ->whereTime('created_at', '<', '08:00:00');
+        })->get();
 
 
         $karyawan = User::whereNotIn('role', ['user'])
@@ -32,10 +36,19 @@ class homeController extends Controller
             }])
             ->get();
 
-        if ($request->sortir == null) {
+        if ($request->sortir == null || $request->sortir == 'all') {
             $data['karyawans'] = $karyawan;
             $data['keterangan'] = 'semua karyawan';
-        }else{
+        } else if ($request->sortir == 'kosong') {
+            $data['karyawans'] = $data['penggunaBelumAbsen'];
+            $data['keterangan'] = 'Belum Absen';
+        } else if ($request->sortir == 'tepat') {
+            $data['karyawans'] = $data['penggunaTepat'];
+            $data['keterangan'] = 'Tepat Absen';
+        } else if ($request->sortir == 'terlambat') {
+            $data['karyawans'] = $data['penggunaTerlambat'];
+            $data['keterangan'] = 'Terlambat Absen';
+        } else {
             $data['karyawans'] = 'ada request';
         }
 

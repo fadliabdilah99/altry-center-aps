@@ -28,6 +28,7 @@ Route::middleware('auth')->group(function () {
 // -------  halaman untuk admin------------------------------------------------------------------------------------
 Route::group(['middleware' => ['role:admin']], function () {
     Route::get('admin-home', [homeController::class, 'homeAdmin']);
+    Route::post('admin-home', [homeController::class, 'homeAdmin']);
     // user prosess
     Route::get('user', [userController::class, 'index']);
     Route::post('edituser/{id}', [userController::class, 'update']);

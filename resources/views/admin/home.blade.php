@@ -267,9 +267,14 @@
                                         <span class="info-box-text">Karyawan</span>
                                         <div class="d-flex justify-content-between">
                                             <span class="info-box-number">{{ $karyawantotal }}</span>
-                                            <button class="btn btn-info">
-                                                <i class="bi bi-eye"></i>
-                                            </button>
+                                            <form action="admin-home" method="POST">
+                                                @csrf
+                                                <input type="text" name="sortir" value="all" hidden
+                                                    id="">
+                                                <button type="submit" class="btn btn-info">
+                                                    <i class="bi bi-eye"></i>
+                                                </button>
+                                            </form>
                                         </div>
                                     </div>
                                     <!-- /.info-box-content -->
@@ -286,9 +291,14 @@
                                         <span class="info-box-text">Belum Absen</span>
                                         <div class="d-flex justify-content-between">
                                             <span class="info-box-number">{{ $belumabsen }}</span>
-                                            <button class="btn btn-danger">
-                                                <i class="bi bi-eye"></i>
-                                            </button>
+                                            <form action="admin-home" method="POST">
+                                                @csrf
+                                                <input type="text" name="sortir" value="kosong" hidden
+                                                    id="">
+                                                <button type="submit" class="btn btn-danger">
+                                                    <i class="bi bi-eye"></i>
+                                                </button>
+                                            </form>
                                         </div>
 
                                     </div>
@@ -311,9 +321,14 @@
                                         <span class="info-box-text">Absen Tepat Waktu</span>
                                         <div class="d-flex justify-content-between">
                                             <span class="info-box-number">{{ $tepatwaktu }}</span>
-                                            <button class="btn btn-success">
-                                                <i class="bi bi-eye"></i>
-                                            </button>
+                                            <form action="admin-home" method="POST">
+                                                @csrf
+                                                <input type="text" name="sortir" value="tepat" hidden
+                                                    id="">
+                                                <button type="submit" class="btn btn-success">
+                                                    <i class="bi bi-eye"></i>
+                                                </button>
+                                            </form>
                                         </div>
                                     </div>
                                     <!-- /.info-box-content -->
@@ -329,9 +344,14 @@
                                         <span class="info-box-text">Absen Terlambat</span>
                                         <div class="d-flex justify-content-between">
                                             <span class="info-box-number">{{ $terlambat }}</span>
-                                            <button class="btn btn-warning">
-                                                <i class="bi bi-eye"></i>
-                                            </button>
+                                            <form action="admin-home" method="POST">
+                                                @csrf
+                                                <input type="text" name="sortir" value="terlambat" hidden
+                                                    id="">
+                                                <button type="submit" class="btn btn-warning">
+                                                    <i class="bi bi-eye"></i>
+                                                </button>
+                                            </form>
                                         </div>
                                     </div>
                                     <!-- /.info-box-content -->
@@ -344,7 +364,7 @@
                             <!-- /.col -->
                         </div>
                         <!-- /.card -->
-                        <div class="card">
+                        <div class="card" id="karyawan-card">
                             <div class="card-header">
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse"
@@ -356,7 +376,7 @@
                                         <i class="fas fa-times"></i>
                                     </button>
                                 </div>
-                                <h2>{{ $keterangan }}</h2>
+                                <h3>{{ $keterangan }}  {{ date('d-m-Y') }}</h3>
                             </div>
 
                             <div class="card-body">

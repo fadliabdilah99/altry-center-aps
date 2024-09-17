@@ -24,7 +24,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 </head>
 
-<body class="hold-transition sidebar-mini dark-mode">
+<body class="hold-transition sidebar-mini ">
     <div class="wrapper">
         <!-- Navbar -->
         @include('admin.template.header')

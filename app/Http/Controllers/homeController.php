@@ -61,4 +61,5 @@ class homeController extends Controller
         $data['tepatwaktu'] =  $data['karyawantotal'] - $data['terlambat'] - $data['belumabsen'];
         return view('admin.home')->with($data);
     }
+    
 }

@@ -29,8 +29,10 @@ Route::middleware('auth')->group(function () {
 Route::group(['middleware' => ['role:admin']], function () {
     Route::get('admin-home', [homeController::class, 'homeAdmin']);
     Route::post('admin-home', [homeController::class, 'homeAdmin']);
+    Route::post('admin-home-sortir', [homeController::class, 'sortir']);
     // user prosess
     Route::get('user', [userController::class, 'index']);
+    Route::post('user', [userController::class, 'index']);
     Route::post('edituser/{id}', [userController::class, 'update']);
     Route::post('deleteuser/{id}', [userController::class, 'delete']);
     // dapdar prosess

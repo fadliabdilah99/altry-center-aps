@@ -29,6 +29,6 @@ class karyawanController extends Controller
         } elseif (!is_null($dap) && is_null($dar)) {
             $data['no'] = 'add_Dar';
         }
-        return view('karyawan.index')->with($data);
+        return view('karyawan.page.index')->with($data);
     }
 }

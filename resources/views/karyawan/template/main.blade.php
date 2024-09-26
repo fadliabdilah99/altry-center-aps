@@ -33,7 +33,6 @@
 <body @stack('bodystyle')>
 
 <div class="wrapper">
-
     @include('karyawan.template.navbar')
     @yield('content')
 </div>

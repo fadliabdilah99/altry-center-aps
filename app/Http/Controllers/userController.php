@@ -10,24 +10,20 @@ use Svg\Tag\Rect;
 
 class userController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-        $data['karyawans'] = User::whereNotIn('role', ['user'])
-            ->with(['absen' => function ($query) use ($request) {
-                // Jika request dari tidak null, gunakan nilai request
-                if ($request->dari != null) {
-                    $query->whereDate('tanggal', '>=', $request->dari);
-                } else {
-                    // Jika request dari null, gunakan tanggal hari ini
-                    $query->whereDate('tanggal', date('Y-m-d'));
-                }
-            }])
-            ->get();
-    
+
+        $data['karyawans'] = User::whereNotIn('role', ['user'])->get();
+
+
+
         $data['users'] = User::where('role', 'user')->get();
+        // dd($data['karyawans']);
+
         return view('admin.user.index')->with($data);
     }
-    
+
+
 
     public function update(Request $request, $id)
     {

@@ -22,7 +22,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::get('profile-home', [ProfileController::class, 'index']);
+    Route::get('profile-home/{id}', [ProfileController::class, 'index']);
 });
 
 
@@ -33,7 +33,6 @@ Route::group(['middleware' => ['role:admin']], function () {
     Route::post('admin-home-sortir', [homeController::class, 'sortir']);
     // user prosess
     Route::get('user', [userController::class, 'index']);
-    Route::post('user', [userController::class, 'index']);
     Route::post('edituser/{id}', [userController::class, 'update']);
     Route::post('deleteuser/{id}', [userController::class, 'delete']);
     // dapdar prosess

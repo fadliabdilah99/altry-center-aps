@@ -44,20 +44,7 @@
                     <i class="fas fa-times"></i>
                 </button>
             </div>
-            <div class="container col-6">
-                <form action="user" method="post">
-                    @csrf
-                    <div class="d-flex  align-items-center ">
-                        <label for="">Dari</label>
-                        <input type="date" value="{{ date('Y-m-d') }}" name="dari" class="mx-2 form-control"
-                            max="{{ date('Y-m-d') }}" id="">
-                        <label for="">Sampai</label>
-                        <input type="date" value="{{ date('Y-m-d') }}" name="dari" class="mx-2 form-control"
-                            max="{{ date('Y-m-d') }}" id="">
-                        <button class="btn btn-primary">sortir</button>
-                    </div>
-                </form>
-            </div>
+
         </div>
         <div class="card-body">
             <button class="btn btn-success mb-2" type="button" data-toggle="modal" data-target="#adduser">Add User</button>
@@ -90,10 +77,8 @@
                             <td>
                                 <button type="button" class="btn btn-primary" data-toggle="modal"
                                     data-target="#edit{{ $karyawan->id }}">Edit</button>
-                                <button type="button" class="btn btn-primary" data-toggle="modal"
-                                    data-target="#absen{{ $karyawan->id }}">aktifitas</button>
-                                <form action="{{ url("deleteuser/$karyawan->id") }}" method="POST"
-                                    style="display: inline">
+                                <a href="profile-home/{{ $karyawan->id }}" class="btn btn-primary">aktifitas</a>
+                                <form action="{{ url("deleteuser/$karyawan->id") }}" method="POST" style="display: inline">
                                     @csrf
                                     @method('DELETE')
                                     <button class="btn bg-danger delete-data" type="button">

@@ -127,9 +127,9 @@
                                             <!-- small box -->
                                             <div class="small-box bg-info">
                                                 <div class="inner">
-                                                    <h3>Rp {{ number_format($gajih, 0, ',', '.') }}</h3>
+                                                    <h3>Rp {{ number_format($gajibulanan, 0, ',', '.') }}</h3>
 
-                                                    <p class="text-danger">Rp -{{ number_format($potongan, 0, ',', '.') }}</p>
+                                                    <p class="text-danger">Rp -{{ number_format($potonganbulanan, 0, ',', '.') }}</p>
                                                 </div>
                                                 <div class="icon">
                                                     <i class="ion ion-bag"></i>
@@ -174,9 +174,9 @@
                                             <!-- small box -->
                                             <div class="small-box bg-danger">
                                                 <div class="inner">
-                                                    <h3>65</h3>
+                                                    <h3>{{$countpelanggaran}}</h3>
 
-                                                    <p>Unique Visitors</p>
+                                                    <p>Pelanggaran & Potongan</p>
                                                 </div>
                                                 <div class="icon">
                                                     <i class="ion ion-pie-graph"></i>

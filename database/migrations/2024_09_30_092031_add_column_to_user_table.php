@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->integer('gajih')->after('password');
+            $table->integer('skor')->after('gajih')->default(100);
         });
     }
 
@@ -23,6 +24,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('gajih');
+            $table->dropColumn('skor');
         });
     }
 };

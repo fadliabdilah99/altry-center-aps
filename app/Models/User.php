@@ -56,4 +56,8 @@ class User extends Authenticatable implements MustVerifyEmail
     public function absen(){
         return $this->hasMany(absen::class);
     }
+
+    public function skor(){
+        return $this->hasMany(skor::class);
+    }
 }

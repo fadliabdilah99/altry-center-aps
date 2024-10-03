@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\absen;
+use App\Models\skor;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -13,16 +15,16 @@ use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
-    public function index()
+    public function index($id)
     {
-        $data['user'] = Auth::user();
+        $data['user'] = User::where('id', $id)->first();
         $now = Carbon::now()->format('Y-m-d');
 
 
         // memanggil semua data absen 
         $data['timeline'] = absen::where('user_id', $data['user']->id)->orderBy('tanggal', 'asc')->get()->groupBy('tanggal');
 
-        // menhitung presentase ketepatan waktu
+        // menhitung presentase ketepatan waktu secara keseluruhan
         $tepat = absen::whereTime('created_at', '<=', '08:00:00')->where('user_id', $data['user']->id)->distinct('tanggal')->count();
         $data['lamaBekerja'] = (int) $data['user']->created_at->diffInWeekdays($now);
         $data['presentase'] = intval(($tepat / $data['lamaBekerja']) * 100);
@@ -38,9 +40,17 @@ class ProfileController extends Controller
         }
 
 
-        // gajih dan potongan
-        $data['gajih'] = $data['user']->gajih * $data['presentase'] / 100;
-        $data['potongan'] = $data['user']->gajih - $data['gajih'];
+        // gajih dan potongan dan presentase absen bulanan
+        $data['bulanan'] = Carbon::now()->format('d') - absen::where('user_id', $data['user']->id)->whereMonth('created_at', Carbon::now()->month)->whereTime('created_at', '<=', '08:00:00')->distinct('tanggal')->count();
+        $data['gajibulanan'] = $data['user']->gajih;
+        $data['potonganbulanan'] = $data['user']->gajih * $data['bulanan'] / 100;
+
+        // keterangan pelanggaran dan potongan
+        $telat = $data['bulanan'];
+        $data['pelanggaran'] = skor::where('user_id', $data['user']->id)->whereMonth('created_at', Carbon::now()->month)->get();
+
+        $data['countpelanggaran'] = $data['pelanggaran']->count() + $telat;
+ 
 
 
 

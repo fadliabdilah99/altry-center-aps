@@ -16,7 +16,7 @@
             <!-- Left navbar links -->
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a href="profile-home" class="nav-link">Profile</a>
+                    <a href="profile-home/{{ Auth::user()->id }}" class="nav-link">Profile</a>
                 </li>
             </ul>
         </div>

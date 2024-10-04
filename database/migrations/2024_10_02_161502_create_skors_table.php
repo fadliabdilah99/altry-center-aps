@@ -16,8 +16,8 @@ return new class extends Migration
             $table->bigInteger('user_id');
             $table->string('jenis');
             $table->integer('skor');
-            $table->integer('Gaji');
-            $table->integer('alasan');
+            $table->integer('gaji')->nullable();
+            $table->string('alasan');
             $table->timestamps();
         });
     }

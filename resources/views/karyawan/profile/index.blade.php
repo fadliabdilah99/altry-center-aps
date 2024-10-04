@@ -58,7 +58,10 @@
                                 </li>
                             </ul>
 
-                            <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
+
+                            <a href="#" class="btn btn-primary btn-block"><b>kredit skor :
+                                    {{ $kredit }}</b></a>
+
                         </div>
                         <!-- /.card-body -->
                     </div>
@@ -117,6 +120,14 @@
                                 </li>
                                 <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Settings</a>
                                 </li>
+                                @if (Auth::user()->role == 'admin')
+                                    <li class="nav-item bg-info m-1 rounded"><a class="nav-link" href="#skors"
+                                            data-toggle="tab">Sangsi</a>
+                                    </li>
+                                    <li class="nav-item bg-info m-1 rounded"><a class="nav-link" href="#promosi"
+                                            data-toggle="tab">Promosi</a>
+                                    </li>
+                                @endif
                             </ul>
                         </div><!-- /.card-header -->
                         <div class="card-body">
@@ -129,7 +140,8 @@
                                                 <div class="inner">
                                                     <h3>Rp {{ number_format($gajibulanan, 0, ',', '.') }}</h3>
 
-                                                    <p class="text-danger">Rp -{{ number_format($potonganbulanan, 0, ',', '.') }}</p>
+                                                    <p class="text-danger">Rp
+                                                        -{{ number_format($potonganbulanan, 0, ',', '.') }}</p>
                                                 </div>
                                                 <div class="icon">
                                                     <i class="ion ion-bag"></i>
@@ -158,15 +170,14 @@
                                             <!-- small box -->
                                             <div class="small-box bg-warning">
                                                 <div class="inner">
-                                                    <h3>44</h3>
+                                                    <h3>{{ $bulanan }}</h3>
 
-                                                    <p>User Registrations</p>
+                                                    <p>Tidak Mengisi/Telat Absen</p>
                                                 </div>
                                                 <div class="icon">
                                                     <i class="ion ion-person-add"></i>
                                                 </div>
-                                                <a href="#" class="small-box-footer">More info <i
-                                                        class="fas fa-arrow-circle-right"></i></a>
+                                                <div class="small-box-footer">Dalam 1 bulan</div>
                                             </div>
                                         </div>
                                         <!-- ./col -->
@@ -174,9 +185,9 @@
                                             <!-- small box -->
                                             <div class="small-box bg-danger">
                                                 <div class="inner">
-                                                    <h3>{{$countpelanggaran}}</h3>
+                                                    <h3>{{ $countpelanggaran }}x </h3>
 
-                                                    <p>Pelanggaran & Potongan</p>
+                                                    <p>Pelanggaran Kerja</p>
                                                 </div>
                                                 <div class="icon">
                                                     <i class="ion ion-pie-graph"></i>
@@ -234,6 +245,130 @@
 
                                 <div class="tab-pane" id="settings">
                                     @include('profile.edit')
+                                </div>
+                                <div class="tab-pane" id="skors">
+                                    <div class="card card-info">
+                                        <div class="card-header">
+                                            <h3 class="card-title">Berikan Sangsi Pelanggaran Pada User</h3>
+                                        </div>
+                                        <!-- /.card-header -->
+                                        <!-- form start -->
+                                        <form class="form-horizontal" action="{{ url('skor') }}" method="POST">
+                                            @csrf
+                                            <input type="Number" hidden name="user_id" value="{{ $user->id }}">
+                                            <input type="text" hidden name="jenis" value="1">
+                                            <div class="card-body">
+                                                <div class="form-group row">
+                                                    <label for="inputEmail3" class="col-sm-2 col-form-label">Penurunan
+                                                        Gaji</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="Number" name="gaji" class="form-control"
+                                                            id="inputEmail3" placeholder="Menurunkan Gaji keseluruhan"
+                                                            max="{{ $user->gajih }}" value="{{ $user->gajih }}">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="inputEmail3" class="col-sm-2 col-form-label">Potongan
+                                                        Gaji</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="Number" name="potongGaji" class="form-control"
+                                                            id="inputEmail3" placeholder="Memotong Gaji Bulan ini">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="inputPassword3" class="col-sm-2 col-form-label">Kurangi
+                                                        Skor</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="Number" name="skor" class="form-control"
+                                                            id="inputPassword3" placeholder="Poin yang akan di kurangi">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="inputPassword3"
+                                                        class="col-sm-2 col-form-label">Alasan</label>
+                                                    <div class="col-sm-10">
+                                                        <textarea name="alasan" class="form-control" id="inputPassword3" placeholder="Alasan Mengenai Sangsi"></textarea>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <!-- /.card-body -->
+                                            <div class="card-footer">
+                                                <button type="submit" class="btn btn-info">Berikan sangsi</button>
+                                            </div>
+                                            <!-- /.card-footer -->
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="promosi">
+                                    <div class="card card-info">
+                                        <div class="card-header">
+                                            <h3 class="card-title">Berikan Promosi Pada User</h3>
+                                        </div>
+                                        <!-- /.card-header -->
+                                        <!-- form start -->
+                                        <form class="form-horizontal" action="{{ url('skor') }}" method="POST">
+                                            @csrf
+                                            <input type="Number" hidden name="user_id" value="{{ $user->id }}">
+                                            <input type="text" hidden name="jenis" value="2">
+                                            <div class="card-body">
+                                                <div class="form-group row">
+                                                    <label for="inputEmail3" class="col-sm-2 col-form-label">Penambahan
+                                                        Gaji</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="Number" name="gajih" class="form-control"
+                                                            id="inputEmail3" placeholder="Menurunkan Gaji keseluruhan"
+                                                            min="{{ $user->gajih }}" value="{{ $user->gajih }}">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="inputEmail3" class="col-sm-2 col-form-label">Bonus</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="Number" name="gajih" class="form-control"
+                                                            id="inputEmail3" placeholder="Memotong Gaji Bulan ini">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="inputEmail3" class="col-sm-2 col-form-label">Kenaikan
+                                                        Jabatan</label>
+                                                    <div class="col-sm-10">
+                                                        <select class="form-control select2bs4 select2-hidden-accessible"
+                                                            name="role" id="">
+                                                            <option selected value="{{ $user->role }}">
+                                                                {{ $user->role }}</option>
+                                                            <option value="admin">Admin</option>
+                                                            <option value="akuntan">akuntan</option>
+                                                            <option value="manager">manager</option>
+                                                            <option value="cs">cs</option>
+                                                            <option value="karyawan">karyawan</option>
+                                                            <option value="sales">sales</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="inputPassword3" class="col-sm-2 col-form-label">Kurangi
+                                                        Skor</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="Number" name="skor" class="form-control"
+                                                            id="inputPassword3" placeholder="Poin yang akan di kurangi">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="inputPassword3"
+                                                        class="col-sm-2 col-form-label">Alasan</label>
+                                                    <div class="col-sm-10">
+                                                        <textarea name="alasan" class="form-control" id="inputPassword3" placeholder="Alasan Mengenai Sangsi"></textarea>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <!-- /.card-body -->
+                                            <div class="card-footer">
+                                                <button type="submit" class="btn btn-info">Berikan Promosi</button>
+                                            </div>
+                                            <!-- /.card-footer -->
+                                        </form>
+                                    </div>
                                 </div>
                                 <!-- /.tab-pane -->
                             </div>

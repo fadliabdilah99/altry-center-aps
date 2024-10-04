@@ -20,6 +20,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
+        'gajih',
+        'skor',
+        'role',
     ];
 
     /**
@@ -45,19 +48,23 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
     }
 
-    public function dap(){
+    public function dap()
+    {
         return $this->hasMany(dap::class);
     }
 
-    public function invoice(){
+    public function invoice()
+    {
         return $this->hasMany(invoice::class);
     }
 
-    public function absen(){
+    public function absen()
+    {
         return $this->hasMany(absen::class);
     }
 
-    public function skor(){
+    public function skor()
+    {
         return $this->hasMany(skor::class);
     }
 }

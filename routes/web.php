@@ -5,6 +5,7 @@ use App\Http\Controllers\dapdarController;
 use App\Http\Controllers\homeController;
 use App\Http\Controllers\karyawanController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\skorController;
 use App\Http\Controllers\userController;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpKernel\Profiler\Profile;
@@ -37,6 +38,9 @@ Route::group(['middleware' => ['role:admin']], function () {
     Route::post('deleteuser/{id}', [userController::class, 'delete']);
     // dapdar prosess
     Route::get('DAP-DAR', [dapdarController::class, 'index']);
+
+    // sangsi
+    Route::post('skor', [skorController::class, 'sangsi']);
 });
 
 // -------  halaman untuk admin dan gudang------------------------------------------------------------------------

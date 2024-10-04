@@ -18,6 +18,7 @@ class ProfileController extends Controller
     public function index($id)
     {
         $data['user'] = User::where('id', $id)->first();
+        $data['kredit'] = $data['user']->skor;
         $now = Carbon::now()->format('Y-m-d');
 
 
@@ -42,15 +43,15 @@ class ProfileController extends Controller
 
         // gajih dan potongan dan presentase absen bulanan
         $data['bulanan'] = Carbon::now()->format('d') - absen::where('user_id', $data['user']->id)->whereMonth('created_at', Carbon::now()->month)->whereTime('created_at', '<=', '08:00:00')->distinct('tanggal')->count();
+        $potongan = skor::where('user_id', $data['user']->id)->whereMonth('created_at', Carbon::now()->month)->sum('gaji');
         $data['gajibulanan'] = $data['user']->gajih;
-        $data['potonganbulanan'] = $data['user']->gajih * $data['bulanan'] / 100;
-
+        $data['potonganbulanan'] = ($data['user']->gajih * $data['bulanan'] / 100) + $potongan;
+        
         // keterangan pelanggaran dan potongan
         $telat = $data['bulanan'];
         $data['pelanggaran'] = skor::where('user_id', $data['user']->id)->whereMonth('created_at', Carbon::now()->month)->get();
-
         $data['countpelanggaran'] = $data['pelanggaran']->count() + $telat;
- 
+
 
 
 
